@@ -1,0 +1,27 @@
+<%= form_with(model: payroll) do |form| %>
+  <% if payroll.errors.any? %>
+    <div style="color: red">
+      <h2><%= pluralize(payroll.errors.count, "error") %> prohibited this payroll from being saved:</h2>
+
+      <ul>
+        <% payroll.errors.each do |error| %>
+          <li><%= error.full_message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div>
+    <%= form.label :amount, style: "display: block" %>
+    <%= form.text_field :amount %>
+  </div>
+
+  <div>
+    <%= form.label :cycle, style: "display: block" %>
+    <%= form.text_field :cycle %>
+  </div>
+
+  <div>
+    <%= form.submit %>
+  </div>
+<% end %>

@@ -1,0 +1,42 @@
+<%= form_with(model: employment) do |form| %>
+  <% if employment.errors.any? %>
+    <div style="color: red">
+      <h2><%= pluralize(employment.errors.count, "error") %> prohibited this employment from being saved:</h2>
+
+      <ul>
+        <% employment.errors.each do |error| %>
+          <li><%= error.full_message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div>
+    <%= form.label :hire_date, style: "display: block" %>
+    <%= form.date_field :hire_date %>
+  </div>
+
+  <div>
+    <%= form.label :termination_date, style: "display: block" %>
+    <%= form.date_field :termination_date %>
+  </div>
+
+  <div>
+    <%= form.label :department_id, style: "display: block" %>
+    <%= form.number_field :department_id %>
+  </div>
+
+  <div>
+    <%= form.label :employee_id, style: "display: block" %>
+    <%= form.number_field :employee_id %>
+  </div>
+
+  <div>
+    <%= form.label :payroll_id, style: "display: block" %>
+    <%= form.number_field :payroll_id %>
+  </div>
+
+  <div>
+    <%= form.submit %>
+  </div>
+<% end %>
