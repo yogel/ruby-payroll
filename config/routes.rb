@@ -1,5 +1,6 @@
 Rails.application.routes.draw do
   get 'home/index'
+  get 'report' => 'report#index'
   resources :departments
   resources :employments
   resources :payrolls

@@ -4,6 +4,9 @@ class EmploymentsController < ApplicationController
   # GET /employments or /employments.json
   def index
     @employments = Employment.all
+    @departments = Department.all
+    @employees = Employee.all
+    @payrolls = Payroll.all
   end
 
   # GET /employments/1 or /employments/1.json
@@ -13,15 +16,24 @@ class EmploymentsController < ApplicationController
   # GET /employments/new
   def new
     @employment = Employment.new
+    @departments = Department.all
+    @employees = Employee.all
+    @payrolls = Payroll.all
   end
 
   # GET /employments/1/edit
   def edit
+    @departments = Department.all
+    @employees = Employee.all
+    @payrolls = Payroll.all
   end
 
   # POST /employments or /employments.json
   def create
     @employment = Employment.new(employment_params)
+    @departments = Department.all
+    @employees = Employee.all
+    @payrolls = Payroll.all
 
     respond_to do |format|
       if @employment.save

@@ -23,17 +23,17 @@
 
   <div>
     <%= form.label :department_id, style: "display: block" %>
-    <%= form.number_field :department_id %>
+    <%= form.select :department_id, departments.all.collect { |department| [ department.name, department.id ]}, { prompt: true } %>
   </div>
 
   <div>
     <%= form.label :employee_id, style: "display: block" %>
-    <%= form.number_field :employee_id %>
+    <%= form.select :employee_id, employees.all.collect { |employee| [ "#{employee.firstname} #{employee.lastname}", employee.id ]}, { prompt: true } %>
   </div>
 
   <div>
     <%= form.label :payroll_id, style: "display: block" %>
-    <%= form.number_field :payroll_id %>
+    <%= form.select :payroll_id, payrolls.all.collect { |payroll| [ "#{payroll.amount} every #{payroll.cycle}", payroll.id ]}, { prompt: true } %>
   </div>
 
   <div>

@@ -18,7 +18,7 @@
 
   <div>
     <%= form.label :cycle, style: "display: block" %>
-    <%= form.text_field :cycle %>
+    <%= form.select :cycle, ["weekly", "Semi-Monthly", "monthly"], { prompt: true } %>
   </div>
 
   <div>

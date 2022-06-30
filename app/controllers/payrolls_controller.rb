@@ -13,10 +13,12 @@ class PayrollsController < ApplicationController
   # GET /payrolls/new
   def new
     @payroll = Payroll.new
+    @employees = Employee.all
   end
 
   # GET /payrolls/1/edit
   def edit
+    @employees = Employee.all
   end
 
   # POST /payrolls or /payrolls.json

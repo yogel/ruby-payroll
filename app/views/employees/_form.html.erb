@@ -28,7 +28,7 @@
 
   <div>
     <%= form.label :gender, style: "display: block" %>
-    <%= form.text_field :gender %>
+    <%= form.select :gender, ["Male", "Female"], { prompt: true } %>
   </div>
 
   <div>
