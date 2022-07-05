@@ -1,6 +1,27 @@
 <h1>Terminate Employment</h1>
 
-<%= render "form", employment: @employment, departments: @departments, payrolls: @payrolls, employees: @employees %>
+<%= form_with(model: @employment) do |form| %>
+  <% if @employment.errors.any? %>
+    <div style="color: red">
+      <h2><%= pluralize(@employment.errors.count, "error") %> prohibited this employment from being saved:</h2>
+
+      <ul>
+        <% @employment.errors.each do |error| %>
+          <li><%= error.full_message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div>
+    <%= form.label :termination_date, style: "display: block" %>
+    <%= form.date_field :termination_date %>
+  </div>
+
+  <div>
+    <%= form.submit "Terminate"%>
+  </div>
+<% end %>
 
 <br>
 

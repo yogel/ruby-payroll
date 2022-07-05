@@ -1,5 +1,5 @@
 class EmploymentsController < ApplicationController
-  before_action :set_employment, only: %i[ show edit update destroy ]
+  before_action :set_employment, only: %i[ show edit update destroy terminate ]
 
   # GET /employments or /employments.json
   def index
@@ -30,9 +30,10 @@ class EmploymentsController < ApplicationController
 
   # GET /employments/1/terminate or /employments/1/terminate.json
   def terminate
-    @departments = Department.all
-    @employees = Employee.all
-    @payrolls = Payroll.all
+    # @employment = Employment.find(params[:id])
+    # @employment.termination_date = Date.now
+    # @employment.save
+    render :terminate
   end
 
   # POST /employments or /employments.json
