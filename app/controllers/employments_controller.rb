@@ -28,6 +28,13 @@ class EmploymentsController < ApplicationController
     @payrolls = Payroll.all
   end
 
+  # GET /employments/1/terminate or /employments/1/terminate.json
+  def terminate
+    @departments = Department.all
+    @employees = Employee.all
+    @payrolls = Payroll.all
+  end
+
   # POST /employments or /employments.json
   def create
     @employment = Employment.new(employment_params)
@@ -48,6 +55,10 @@ class EmploymentsController < ApplicationController
 
   # PATCH/PUT /employments/1 or /employments/1.json
   def update
+    @departments = Department.all
+    @employees = Employee.all
+    @payrolls = Payroll.all
+
     respond_to do |format|
       if @employment.update(employment_params)
         format.html { redirect_to employment_url(@employment), notice: "Employment was successfully updated." }

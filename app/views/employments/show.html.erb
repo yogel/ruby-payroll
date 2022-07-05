@@ -4,7 +4,8 @@
 
 <div>
   <%= link_to "Edit this employment", edit_employment_path(@employment) %> |
-  <%= link_to "Back to employments", employments_path %>
+  <%= link_to "Back to employments", employments_path %> |
+  <%= link_to "Terminate this employment", terminate_employment_path(@employment) %>
 
   <%= button_to "Destroy this employment", @employment, method: :delete %>
 </div>

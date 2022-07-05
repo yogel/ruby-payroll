@@ -50,6 +50,24 @@ gem "bootsnap", require: false
 # gem "image_processing", "~> 1.2"
 
 group :development, :test do
+  # rspec command for spring (https://github.com/jonleighton/spring-commands-rspec)
+  gem 'spring-commands-rspec'
+  # Ruby fast debugger - base + CLI (https://github.com/deivid-rodriguez/byebug)
+  gem 'byebug', platform: :mri
+  # Autoload dotenv in Rails. (https://github.com/bkeepers/dotenv)
+  gem 'dotenv-rails'
+  # Provides "its" method formerly part of rspec-core (https://github.com/rspec/rspec-its)
+  gem 'rspec-its'
+  # RSpec for Rails (https://github.com/rspec/rspec-rails)
+  gem 'rspec-rails'
+  # Extracting `assigns` and `assert_template` from ActionDispatch. (https://github.com/rails/rails-controller-testing)
+  gem 'rails-controller-testing'
+  # factory_bot_rails provides integration between factory_bot and rails 5.0 or newer (https://github.com/thoughtbot/factory_bot_rails)
+  gem 'factory_bot_rails'
+  # Code coverage for Ruby (https://github.com/simplecov-ruby/simplecov)
+  gem 'simplecov', '~> 0.21.2'
+  # Run Test::Unit / RSpec / Cucumber / Spinach in parallel (https://github.com/grosser/parallel_tests)
+  gem 'parallel_tests'
   # See https://guides.rubyonrails.org/debugging_rails_applications.html#debugging-with-the-debug-gem
   gem "debug", platforms: %i[ mri mingw x64_mingw ]
 end

@@ -1,4 +1,4 @@
-<%= form_with(model: employee) do |form| %>
+<%= form_with(model: [ employee ]) do |form| %>
   <% if employee.errors.any? %>
     <div style="color: red">
       <h2><%= pluralize(employee.errors.count, "error") %> prohibited this employee from being saved:</h2>
@@ -30,6 +30,39 @@
     <%= form.label :gender, style: "display: block" %>
     <%= form.select :gender, ["Male", "Female"], { prompt: true } %>
   </div>
+
+  <!-- Beginning of Employment data -->
+
+  <%= form.fields_for :employment do |employment_form| %>
+    <div>
+      <%= employment_form.label :hire_date, style: "display: block" %>
+      <%= employment_form.date_field :hire_date %>
+    </div>
+
+    <div>
+      <%= employment_form.label :termination_date, style: "display: block" %>
+      <%= employment_form.date_field :termination_date %>
+    </div>
+
+    <div>
+      <%= employment_form.label :department_id, style: "display: block" %>
+      <%= employment_form.select :department_id, departments.all.collect { |department| [ department.name, department.id ]}, { prompt: employee.employment.department_id == nil } %>
+    </div>
+  <% end %>
+
+  <%# Beginning of payroll data %>
+  <%= form.fields_for :payroll do |payroll_form| %>
+    <div>
+      <%= payroll_form.label :amount, style: "display: block" %>
+      <%= payroll_form.text_field :amount %>
+    </div>
+
+    <div>
+      <%= payroll_form.label :cycle, style: "display: block" %>
+      <%= payroll_form.select :cycle, ["weekly", "Semi-Monthly", "monthly"], { prompt: true } %>
+    </div>
+  <% end %>
+
 
   <div>
     <%= form.submit %>

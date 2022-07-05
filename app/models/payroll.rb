@@ -1,5 +1,5 @@
 class Payroll < ApplicationRecord
-  # belongs_to :employee
+  has_one :employment
   validates :amount, presence: true, numericality: { only_integer: false, greater_than: 0 }
   validates :cycle, presence: true
 end
