@@ -20,9 +20,6 @@ class EmployeesController < ApplicationController
 
   # GET /employees/1/edit
   def edit
-    puts @employee.inspect
-    puts "################################****************"
-
     @employment = @employee.employment
     @payroll = @employee.payroll
 
@@ -39,22 +36,11 @@ class EmployeesController < ApplicationController
       payroll_worked = @payroll.save
       employee_worked = @employee.save
 
-      puts employee_worked
-      puts payroll_worked
-      byebug
-
       @employment = Employment.new({ "department_id": employee_params[:employment_attributes][:department_id], hire_date: employee_params[:employment_attributes][:hire_date], termination_date: employee_params[:employment_attributes][:termination_date], department_id: employee_params[:employment_attributes][:department_id] })
-
-      
 
       @employment.employee_id = @employee.id
       @employment.payroll_id = @payroll.id
       employment_worked = @employment.save
-
-      puts employee_worked
-      puts employment_worked
-      puts payroll_worked
-      byebug
 
       respond_to do |format|
         if employee_worked && employment_worked && payroll_worked
@@ -73,11 +59,6 @@ class EmployeesController < ApplicationController
   def update
     ActiveRecord::Base.transaction do
       @departments = Department.all
-
-      puts @employee.employment.inspect
-      puts "###############################################"
-      puts @employment.inspect
-      byebug
 
       update_employee = @employee.update({ "firstname": employee_params[:firstname], lastname: employee_params[:lastname], dob: employee_params[:dob], gender: employee_params[:gender] })
 
@@ -116,6 +97,6 @@ class EmployeesController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def employee_params
-      params.require(:employee).permit(:firstname, :lastname, :dob, :gender, employment_attributes: [ :department_id, :hire_date, :termination_date, :department_id ], payroll_attributes: [ :amount, :cycle ])
+      params.require(:employee).permit(:firstname, :lastname, :dob, :gender, employment_attributes: [ :department_id, :hire_date, :termination_date ], payroll_attributes: [ :amount, :cycle ])
     end
 end
