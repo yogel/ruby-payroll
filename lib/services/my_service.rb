@@ -26,8 +26,9 @@ module Services
       @event_store = EventStoreClient::Client.new
     end
 
-    def emitEvent(data)
+    def emitEvent(data, type)
       event = Services::CreateEvent.new(
+        type: type,
         data: data,
       )
 

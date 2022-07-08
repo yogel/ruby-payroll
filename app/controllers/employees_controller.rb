@@ -6,7 +6,7 @@ class EmployeesController < ApplicationController
   def initialize
     super
 
-    @payroll_event_stream = Services::EventStream.new('payroll-first-live-test')
+    @payroll_event_stream = Services::EventStream.new('payroll')
   end
 
   # GET /employees or /employees.json
