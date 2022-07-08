@@ -1,5 +1,13 @@
+require "#{Rails.root}/lib/services/my_service"
+
 class DepartmentsController < ApplicationController
   before_action :set_department, only: %i[ show edit update destroy ]
+
+  def initialize
+    super
+
+    @payroll_event_stream = Services::EventStream.new('payroll-first-live-test')
+  end
 
   # GET /departments or /departments.json
   def index
@@ -28,6 +36,15 @@ class DepartmentsController < ApplicationController
       if @department.save
         format.html { redirect_to department_url(@department), notice: "Department was successfully created." }
         format.json { render :show, status: :created, location: @department }
+
+        # Publish the event to the event store
+        @payroll_event_stream.emitEvent({
+          type: 'New Division',
+          payload: {
+            id: @department.id,
+            name: @department.name
+          }
+        })
       else
         format.html { render :new, status: :unprocessable_entity }
         format.json { render json: @department.errors, status: :unprocessable_entity }
@@ -41,6 +58,14 @@ class DepartmentsController < ApplicationController
       if @department.update(department_params)
         format.html { redirect_to department_url(@department), notice: "Department was successfully updated." }
         format.json { render :show, status: :ok, location: @department }
+
+        @payroll_event_stream.emitEvent({
+          type: 'Updated Division',
+          payload: {
+            id: @department.id,
+            name: @department.name
+          }
+        })
       else
         format.html { render :edit, status: :unprocessable_entity }
         format.json { render json: @department.errors, status: :unprocessable_entity }
@@ -55,6 +80,14 @@ class DepartmentsController < ApplicationController
     respond_to do |format|
       format.html { redirect_to departments_url, notice: "Department was successfully destroyed." }
       format.json { head :no_content }
+
+      @payroll_event_stream.emitEvent({
+        type: 'Deleted Division',
+        payload: {
+          id: @department.id,
+          name: @department.name
+        }
+      })
     end
   end
 

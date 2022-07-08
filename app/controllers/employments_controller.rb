@@ -1,5 +1,13 @@
+require "#{Rails.root}/lib/services/my_service"
+
 class EmploymentsController < ApplicationController
-  before_action :set_employment, only: %i[ show edit update destroy terminate ]
+  before_action :set_employment, only: %i[ show edit update destroy terminate terminate_employee ]
+
+  def initialize
+    super
+
+    @payroll_event_stream = Services::EventStream.new('payroll-first-live-test')
+  end
 
   # GET /employments or /employments.json
   def index
@@ -36,6 +44,26 @@ class EmploymentsController < ApplicationController
     render :terminate
   end
 
+  def terminate_employee
+    respond_to do |format|
+      if @employment.update(employment_params)
+        format.html { redirect_to employment_url(@employment), notice: "Employment was successfully terminated." }
+        format.json { render :show, status: :ok, location: @employment }
+
+        @payroll_event_stream.emitEvent({
+          type: 'employment-terminated',
+          payload: {
+            id: @employment.id,
+            termination_date: @employment.termination_date
+          }
+        })
+      else
+        format.html { render :terminate, status: :unprocessable_entity }
+        format.json { render json: @employment.errors, status: :unprocessable_entity }
+      end
+    end
+  end
+
   # POST /employments or /employments.json
   def create
     @employment = Employment.new(employment_params)
@@ -47,6 +75,18 @@ class EmploymentsController < ApplicationController
       if @employment.save
         format.html { redirect_to employment_url(@employment), notice: "Employment was successfully created." }
         format.json { render :show, status: :created, location: @employment }
+
+        @payroll_event_stream.emitEvent({
+          type: 'employment-created',
+          payload: {
+            id: @employment.id,
+            hire_date: @employment.hire_date,
+            termination_date: @employment.termination_date,
+            department_id: @employment.department_id,
+            employee_id: @employment.employee_id,
+            payroll_id: @employment.payroll_id
+          }
+        })
       else
         format.html { render :new, status: :unprocessable_entity }
         format.json { render json: @employment.errors, status: :unprocessable_entity }
@@ -64,6 +104,18 @@ class EmploymentsController < ApplicationController
       if @employment.update(employment_params)
         format.html { redirect_to employment_url(@employment), notice: "Employment was successfully updated." }
         format.json { render :show, status: :ok, location: @employment }
+
+        @payroll_event_stream.emitEvent({
+          type: 'employment-updated',
+          payload: {
+            id: @employment.id,
+            hire_date: @employment.hire_date,
+            termination_date: @employment.termination_date,
+            department_id: @employment.department_id,
+            employee_id: @employment.employee_id,
+            payroll_id: @employment.payroll_id
+          }
+        })
       else
         format.html { render :edit, status: :unprocessable_entity }
         format.json { render json: @employment.errors, status: :unprocessable_entity }
@@ -78,6 +130,18 @@ class EmploymentsController < ApplicationController
     respond_to do |format|
       format.html { redirect_to employments_url, notice: "Employment was successfully destroyed." }
       format.json { head :no_content }
+
+      @payroll_event_stream.emitEvent({
+        type: 'employment-deleted',
+        payload: {
+          id: @employment.id,
+          hire_date: @employment.hire_date,
+          termination_date: @employment.termination_date,
+          department_id: @employment.department_id,
+          employee_id: @employment.employee_id,
+          payroll_id: @employment.payroll_id
+        }
+      })
     end
   end
 
