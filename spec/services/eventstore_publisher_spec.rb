@@ -4,7 +4,7 @@ require "#{Rails.root}/lib/services/my_service"
 
 RSpec.describe 'Hello world' do
   it "Connects to the store and emits an event" do
-    payroll_event_stream_test = Services::EventStream.new('payroll-testssssss')
+    payroll_event_stream_test = Services::EventStream.new('happy-test')
     payroll_event_stream_test.emitEvent({
       type: 'yup',
       payload: {
